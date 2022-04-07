@@ -1,8 +1,9 @@
 package com.techelevator;
 
-import com.techelevator.view.Inventory;
+
 import com.techelevator.view.Menu;
 import com.techelevator.view.MoneyHandler;
+import com.techelevator.view.VendingMachine;
 
 public class VendingMachineCLI {
 
@@ -14,17 +15,12 @@ public class VendingMachineCLI {
 
 	private Menu menu;
 
-	private Inventory inventory=new Inventory();
-	//private MoneyHandler moneyHandler= new MoneyHandler(menu);
-
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
 
-	public void run(MoneyHandler moneyHandler) {
+	public void run(VendingMachine vendingMachine) {
 
-		//reads inventory
-		inventory.readInventory();
 
 		boolean keepRunning=true;
 		while (keepRunning) {
@@ -32,13 +28,13 @@ public class VendingMachineCLI {
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 
-				System.out.println("Option 1 Selected");
-				inventory.printInventory();
+				vendingMachine.printInventory();
 
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
-				moneyHandler.run();
-			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
 
+				vendingMachine.runMoneyHandler();
+
+			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
 
 				keepRunning=false;
 
@@ -46,10 +42,5 @@ public class VendingMachineCLI {
 		}
 	}
 
-	public static void main(String[] args) {
-		Menu menu = new Menu(System.in, System.out);
-		VendingMachineCLI cli = new VendingMachineCLI(menu);
-		MoneyHandler moneyHandler=new MoneyHandler(menu);
-		cli.run(moneyHandler);
-	}
+
 }

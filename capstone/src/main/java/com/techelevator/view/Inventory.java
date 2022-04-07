@@ -5,36 +5,36 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static com.techelevator.view.MoneyHandler.subtractFromBalance;
 
 public class Inventory {
-    static ArrayList<VendingMachineSnack> snackArrayList= new ArrayList();
+    static private ArrayList<VendingMachineSnack> snackArrayList= new ArrayList();
 
     public Inventory(){
 
     }
 
-    public static void ifMatches(String feed, double balance) {
+    public static VendingMachineSnack ifMatchesReturnSnack(String code) {
         for (int i = 0; i < snackArrayList.size(); i++) {
-            if(snackArrayList.get(i).getIdentifier().equals(feed)){
+            if(snackArrayList.get(i).getIdentifier().equals(code)){
                 //check inventory
                 if(snackArrayList.get(i).getInventory()>0){
-                    if(snackArrayList.get(i).getPrice()>=balance){
-
-
-                    }
+                    return snackArrayList.get(i);
                 }
-
+                else{ //matches but no inventory
+                    System.out.println("Product sold out (inventory=0)");
+                    return null;
+                }
             }
-
         }
+        System.out.println("Product Not Found");
+        return null;
     }
 
+
     public void dispense(VendingMachineSnack temp){
-        temp.dispenseMessage();
+        System.out.println(temp.dispenseMessage());
         temp.subtractInventory();
-        subtractFromBalance(temp.getPrice());
-        System.out.println(temp.getName()+" "+ temp.getPrice()+" "+ MoneyHandler.getBalance() );
+        System.out.println(temp.getName()+" "+ temp.getPrice()+ " Remaining Inventory: "+temp.getInventory());
 
     }
 

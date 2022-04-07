@@ -8,10 +8,10 @@ public class MoneyHandler {
 
 
     private Menu menu;
-    public static final double PENNY = .01;
-    public static final double QUARTER = .25;
-    public static final double DIME = .1;
-    public static final double NICKEL = .05;
+//    public static double QPENNY = .01;
+//    public static final double QUARTER = .25;
+//    public static final double DIME = .1;
+//    public static final double NICKEL = .05;
     public static final double ONE = 1;
     public static final double TWO = 2;
     public static final double FIVE = 5;
@@ -29,6 +29,10 @@ public class MoneyHandler {
         return balance;
     }
 
+    private static void setBalanceZero(){
+        balance=0;
+    }
+
     public void run(){
         boolean keepRunning=true;
         while (keepRunning) {
@@ -39,13 +43,14 @@ public class MoneyHandler {
 
             } else if (choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 
-
+                VendingMachine.productSelection();
 
 
 
             } else if (choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
 
-                System.out.println("transaction finished");
+                System.out.println("transaction finished, Returning change");
+                returnChange();
                 keepRunning=false;
             }
 
@@ -55,25 +60,15 @@ public class MoneyHandler {
         }
 
     }
-
-    public void productSelection(){
-        Inventory.printInventory();
-        System.out.println("Please enter the product identifier");
-        Scanner sc = new Scanner(System.in);
-        String feed = sc.next();
-
-        if(Inventory.ifMatches(feed,balance)){
-           // subtractFromBalance();
-
-
-        }else{
-
+    public static boolean areEnoughFunds(double amntToSubtract){
+        if((balance-amntToSubtract)>0){
+            return true;
         }
-
-
-
-
+        else{
+            System.out.println("not enough funds");
+            return false;}
     }
+
 
     public static void subtractFromBalance(double amntToSubtract) {
         balance = balance-amntToSubtract;
@@ -104,4 +99,31 @@ public class MoneyHandler {
         //System.out.println("BALANCE: " + balance);
     }
 
-}
+    public void returnChange(){
+        double balanceD;
+
+        double balanceWas = balance;
+        balanceD = (balance*100);
+        int quarters = (int) (balanceD/25);
+        balanceD = balanceD - (quarters*25);
+        int dimes = (int) (balanceD/10);
+        balanceD = balanceD - (dimes*10);
+        int nickels = (int) (balanceD/5);
+
+        setBalanceZero();
+
+        //Money.balance = balance.multiply(new BigDecimal(0.00));
+        //writeLog("GIVE CHANGE", balanceWas, balance);
+        //balanceWas = balanceWas.multiply(new BigDecimal(0.00));
+        System.out.println("CHANGE: "+ quarters + " quarters " + dimes + " dimes " + nickels + " nickels.");
+    }
+
+
+//        double currentBalance= getBalance();
+//        while(currentBalance!=0){
+//            if (currentBalance)
+//        }
+
+    }
+
+
