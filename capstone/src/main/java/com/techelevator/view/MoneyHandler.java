@@ -4,18 +4,8 @@ import java.util.Scanner;
 
 public class MoneyHandler {
 
-    private static double balance=0.0;
-
-
+    private double balance=0.0;
     private Menu menu;
-//    public static double QPENNY = .01;
-//    public static final double QUARTER = .25;
-//    public static final double DIME = .1;
-//    public static final double NICKEL = .05;
-    public static final double ONE = 1;
-    public static final double TWO = 2;
-    public static final double FIVE = 5;
-    public static final double TEN = 10;
 
     private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
@@ -25,15 +15,15 @@ public class MoneyHandler {
 
     public MoneyHandler(Menu menu){this.menu=menu;}
 
-    public static double getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    private static void setBalanceZero(){
+    private void setBalanceZero(){
         balance=0;
     }
 
-    public void run(){
+    public void run(VendingMachine vendingMachine){
         boolean keepRunning=true;
         while (keepRunning) {
             String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
@@ -43,7 +33,7 @@ public class MoneyHandler {
 
             } else if (choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 
-                VendingMachine.productSelection();
+                vendingMachine.productSelection();
 
 
 
@@ -60,7 +50,7 @@ public class MoneyHandler {
         }
 
     }
-    public static boolean areEnoughFunds(double amntToSubtract){
+    public boolean areEnoughFunds(double amntToSubtract){
         if((balance-amntToSubtract)>0){
             return true;
         }
@@ -70,7 +60,7 @@ public class MoneyHandler {
     }
 
 
-    public static void subtractFromBalance(double amntToSubtract) {
+    public void subtractFromBalance(double amntToSubtract) {
         balance = balance-amntToSubtract;
     }
 
@@ -80,23 +70,20 @@ public class MoneyHandler {
         Scanner sc = new Scanner(System.in);
         String feed = sc.next();
 
-        // boolean keepGoing=true;
-
 
         if (feed.equals("$1")) {
-            this.balance = balance+ONE;
+            this.balance = balance+1;
         }
         else if (feed.equals("$2")) {
-            balance = balance+TWO;
+            balance = balance+2;
         }
         else if (feed.equals("$5")) {
-            balance = balance+FIVE;
+            balance = balance+5;
         }
         else if (feed.equals("$10")) {
-            balance = balance+TEN;
+            balance = balance+10;
         }
-//        writeLog("FEED MONEY", pastBalance, balance);
-        //System.out.println("BALANCE: " + balance);
+
     }
 
     public void returnChange(){
@@ -112,18 +99,8 @@ public class MoneyHandler {
 
         setBalanceZero();
 
-        //Money.balance = balance.multiply(new BigDecimal(0.00));
-        //writeLog("GIVE CHANGE", balanceWas, balance);
-        //balanceWas = balanceWas.multiply(new BigDecimal(0.00));
         System.out.println("CHANGE: "+ quarters + " quarters " + dimes + " dimes " + nickels + " nickels.");
     }
-
-
-//        double currentBalance= getBalance();
-//        while(currentBalance!=0){
-//            if (currentBalance)
-//        }
-
     }
 
 

@@ -7,13 +7,13 @@ import java.util.Scanner;
 
 
 public class Inventory {
-    static private ArrayList<VendingMachineSnack> snackArrayList= new ArrayList();
+    private ArrayList<VendingMachineSnack> snackArrayList= new ArrayList();
 
     public Inventory(){
-
+        readInventory();
     }
 
-    public static VendingMachineSnack ifMatchesReturnSnack(String code) {
+    public VendingMachineSnack ifCodeMatchesReturnSnack(String code) {
         for (int i = 0; i < snackArrayList.size(); i++) {
             if(snackArrayList.get(i).getIdentifier().equals(code)){
                 //check inventory
@@ -63,7 +63,7 @@ public class Inventory {
 
     }
 
-    public static void printInventory(){
+    public void printInventory(){
         for (VendingMachineSnack s: snackArrayList) {
 
             System.out.println(s.toString());

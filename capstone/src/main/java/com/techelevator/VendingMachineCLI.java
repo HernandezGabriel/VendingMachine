@@ -1,8 +1,6 @@
 package com.techelevator;
 
-
 import com.techelevator.view.Menu;
-import com.techelevator.view.MoneyHandler;
 import com.techelevator.view.VendingMachine;
 
 public class VendingMachineCLI {
@@ -21,7 +19,6 @@ public class VendingMachineCLI {
 
 	public void run(VendingMachine vendingMachine) {
 
-
 		boolean keepRunning=true;
 		while (keepRunning) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
@@ -32,7 +29,7 @@ public class VendingMachineCLI {
 
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 
-				vendingMachine.runMoneyHandler();
+				vendingMachine.runMoneyHandler(vendingMachine);
 
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
 
