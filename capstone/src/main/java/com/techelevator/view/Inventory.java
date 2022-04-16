@@ -2,6 +2,7 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,10 +11,13 @@ public class Inventory {
     private ArrayList<VendingMachineSnack> snackArrayList= new ArrayList();
 
     public Inventory(){
+
         readInventory();
+
     }
 
     public VendingMachineSnack ifCodeMatchesReturnSnack(String code) {
+
         for (int i = 0; i < snackArrayList.size(); i++) {
             if(snackArrayList.get(i).getIdentifier().equals(code)){
                 //check inventory
@@ -28,17 +32,22 @@ public class Inventory {
         }
         System.out.println("Product Not Found");
         return null;
+
     }
 
 
     public void dispense(VendingMachineSnack temp){
+
         System.out.println(temp.dispenseMessage());
         temp.subtractInventory();
+        temp.addToAmountBought();
         System.out.println(temp.getName()+" "+ temp.getPrice()+ " Remaining Inventory: "+temp.getInventory());
 
     }
 
+
     public void readInventory(){
+
         String filepath=
                 "C:\\Users\\herna\\Desktop\\Capstone\\module-1-capstone-gabriel-hernandez-daniel-tilton\\capstone\\vendingmachine.csv";
         File dataFile = new File(filepath);
@@ -53,6 +62,7 @@ public class Inventory {
                         new VendingMachineSnack(lineOfInputToArray[0],lineOfInputToArray[1],Double.parseDouble(lineOfInputToArray[2]),lineOfInputToArray[3]);
 
                 snackArrayList.add(tempSnack);
+
             }
         }
         catch (FileNotFoundException ex){
@@ -63,13 +73,32 @@ public class Inventory {
 
     }
 
+    //Prints each snack in snack array list using toString
     public void printInventory(){
-        for (VendingMachineSnack s: snackArrayList) {
 
+        for (VendingMachineSnack s: snackArrayList) {
             System.out.println(s.toString());
+        }
+
+    }
+
+    public String printInventoryForSalesReport(){
+
+        String returnString="";
+        double totalSales=0;
+        for (VendingMachineSnack s: snackArrayList) {
+            totalSales+=(s.getAmountBought())*s.getPrice();
+            returnString+=s.toStringForSalesReport();
 
         }
+        DecimalFormat df = new DecimalFormat("0.00");
+
+        returnString+="\n"+ "TOTAL SALES: "+ df.format(totalSales) +"$";
+        return returnString;
+
     }
+
+
 
 
 
