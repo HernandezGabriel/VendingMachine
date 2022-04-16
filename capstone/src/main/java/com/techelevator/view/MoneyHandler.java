@@ -2,12 +2,10 @@ package com.techelevator.view;
 
 import java.util.Scanner;
 
-import static com.techelevator.view.VendingMachine.writeLog;
-
 public class MoneyHandler {
 
     private double balance=0.0;
-    private static final Menu menu = VendingMachine.menu;
+    private Menu menu;
 
     private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
     private static final String PURCHASE_MENU_OPTION_SELECT_PRODUCT = "Select Product";
@@ -15,6 +13,7 @@ public class MoneyHandler {
     private static final String[] PURCHASE_MENU_OPTIONS =
             { PURCHASE_MENU_OPTION_FEED_MONEY, PURCHASE_MENU_OPTION_SELECT_PRODUCT,PURCHASE_MENU_OPTION_FINISH_TRANSACTION };
 
+    public MoneyHandler(Menu menu){this.menu=menu;}
 
     public double getBalance() {
         return balance;
@@ -24,60 +23,52 @@ public class MoneyHandler {
         balance=0;
     }
 
-    //runs menu options for the purchase menu and jumps to various methods
-    public void run(){
-
+    public void run(VendingMachine vendingMachine){
         boolean keepRunning=true;
         while (keepRunning) {
             String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
             if (choice.equals(PURCHASE_MENU_OPTION_FEED_MONEY)) {
-
                 feedMoney();
 
             } else if (choice.equals(PURCHASE_MENU_OPTION_SELECT_PRODUCT)) {
 
-                VendingMachine.productSelection();
+                vendingMachine.productSelection();
+
+
 
             } else if (choice.equals(PURCHASE_MENU_OPTION_FINISH_TRANSACTION)){
 
                 System.out.println("transaction finished, Returning change");
                 returnChange();
                 keepRunning=false;
-
             }
+
 
             System.out.print("Current money provided: $" );
             System.out.printf("%.02f", balance);
-
         }
 
     }
-
     public boolean areEnoughFunds(double amntToSubtract){
-
         if((balance-amntToSubtract)>0){
             return true;
         }
         else{
             System.out.println("not enough funds");
             return false;}
-
     }
 
 
     public void subtractFromBalance(double amntToSubtract) {
-
         balance = balance-amntToSubtract;
     }
 
     public void feedMoney () {
 
-        System.out.println("Please enter one bill at a time: $1 $2 $5 $10");
+        System.out.println("Please enter one bill at a time");
         Scanner sc = new Scanner(System.in);
         String feed = sc.next();
-
-        double previousBalance=getBalance();
 
 
         if (feed.equals("$1")) {
@@ -92,17 +83,11 @@ public class MoneyHandler {
         else if (feed.equals("$10")) {
             balance = balance+10;
         }
-        else{
-            System.out.println("Invalid Input");
-        }
-
-        writeLog("FEED MONEY",previousBalance,getBalance());
 
     }
 
     public void returnChange(){
-
-        double balanceD; //changing balance variable
+        double balanceD;
 
         double balanceWas = balance;
         balanceD = (balance*100);
@@ -115,11 +100,7 @@ public class MoneyHandler {
         setBalanceZero();
 
         System.out.println("CHANGE: "+ quarters + " quarters " + dimes + " dimes " + nickels + " nickels.");
-
-        writeLog("GIVE CHANGE",balanceWas,getBalance());
-
     }
-
-}
+    }
 
 

@@ -42,16 +42,10 @@ public class Menu {
 	}
 
 	private void displayMenuOptions(Object[] options) {
-		out.println();
+		out.println(); //emptyline?
 		for (int i = 0; i < options.length; i++) {
 			int optionNum = i + 1;
-			if(options[i].equals("")){
-				out.println("");
-			}
-			else{
-				out.println(optionNum + ") " + options[i]);
-			}
-
+			out.println(optionNum + ") " + options[i]);
 		}
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
