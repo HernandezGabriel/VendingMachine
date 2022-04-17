@@ -1,12 +1,13 @@
 package com.techelevator.view;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 import static com.techelevator.view.VendingMachine.writeLog;
 
 public class MoneyHandler {
 
-    private double balance=0.0;
+    private BigDecimal balance= BigDecimal.ZERO;
     private static final Menu menu = VendingMachine.menu;
 
     private static final String PURCHASE_MENU_OPTION_FEED_MONEY = "Feed Money";
@@ -17,14 +18,17 @@ public class MoneyHandler {
 
 
     public double getBalance() {
-        return balance;
+
+        return balance.doubleValue();
     }
 
     private void setBalanceZero(){
-        balance=0;
+        balance= BigDecimal.ZERO;
     }
 
-    //runs menu options for the purchase menu and jumps to various methods
+    //runs the menu options for the purchase menu inside moneyHandler
+    //jumps to one method inside vendingMachine object, productSelection()
+    //jumps to two methods within Money Handler class, feedMoney(), returnChange()
     public void run(VendingMachine vendingMachine){
 
         boolean keepRunning=true;
@@ -54,9 +58,11 @@ public class MoneyHandler {
 
     }
 
-    public boolean areEnoughFunds(double amntToSubtract){
+    //checks for enough funds to complete a transaction, returns true or false, prints to console.
+    public boolean areEnoughFunds(double amountToSubtract){
+        BigDecimal testBal=balance.subtract(BigDecimal.valueOf(amountToSubtract));
 
-        if((balance-amntToSubtract)>0){
+        if(testBal.compareTo(BigDecimal.ZERO) >= 0){ //returns 0 if equal, 1 if greater, -1 if less than
             return true;
         }
         else{
@@ -65,12 +71,14 @@ public class MoneyHandler {
 
     }
 
+    //subtracts from balance
+    public void subtractFromBalance(double amountToSubtract) {
 
-    public void subtractFromBalance(double amntToSubtract) {
-
-        balance = balance-amntToSubtract;
+        balance = balance.subtract(BigDecimal.valueOf(amountToSubtract));
     }
 
+    // uses console to accept user input and add money to the Money handler
+    // calls on static writeLog() to log such transactions
     public void feedMoney () {
 
         System.out.println("Please enter one bill at a time: $1 $2 $5 $10");
@@ -81,16 +89,16 @@ public class MoneyHandler {
 
 
         if (feed.equals("$1")) {
-            this.balance = balance+1;
+            this.balance = balance.add(BigDecimal.valueOf(1));
         }
         else if (feed.equals("$2")) {
-            balance = balance+2;
+            balance = balance.add(BigDecimal.valueOf(2));
         }
         else if (feed.equals("$5")) {
-            balance = balance+5;
+            balance = balance.add(BigDecimal.valueOf(5));
         }
         else if (feed.equals("$10")) {
-            balance = balance+10;
+            balance = balance.add(BigDecimal.valueOf(10));
         }
         else{
             System.out.println("Invalid Input");
@@ -100,17 +108,19 @@ public class MoneyHandler {
 
     }
 
+    //returns the remaining balance inside MoneyHandler in the smallest number of coins possible
+    //calls on static writeLog() to log such transactions
     public void returnChange(){
 
-        double balanceD; //changing balance variable
+        double changingBalance; //changing balance variable
+        double balanceWas = balance.doubleValue(); //saves balance as a double instead of BigDecimal
 
-        double balanceWas = balance;
-        balanceD = (balance*100);
-        int quarters = (int) (balanceD/25);
-        balanceD = balanceD - (quarters*25);
-        int dimes = (int) (balanceD/10);
-        balanceD = balanceD - (dimes*10);
-        int nickels = (int) (balanceD/5);
+        changingBalance = (balanceWas*100);
+        int quarters = (int) (changingBalance/25);
+        changingBalance = changingBalance - (quarters*25);
+        int dimes = (int) (changingBalance/10);
+        changingBalance = changingBalance - (dimes*10);
+        int nickels = (int) (changingBalance/5);
 
         setBalanceZero();
 

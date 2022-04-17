@@ -1,15 +1,17 @@
 package com.techelevator.view;
 
 public class VendingMachineSnack {
+
     private String name;
     private double price;
     private String identifier;
     private String snackType;
-    private int beginningInventory=5;
-    private int amountBought=0;
 
-    public int getAmountBought() {
-        return amountBought;
+    private int beginningInventory=5;
+    private int amountSold =0;
+
+    public int getAmountSold() {
+        return amountSold;
     }
 
     public String getName() {
@@ -35,7 +37,7 @@ public class VendingMachineSnack {
 
     public String toStringForSalesReport(){
 
-        return name+ " | " + amountBought + "\n";
+        return name+ " | " + amountSold + "\n";
 
     }
 
@@ -51,8 +53,8 @@ public class VendingMachineSnack {
         this.beginningInventory--;
     }
 
-    public void addToAmountBought(){
-        amountBought++;
+    public void addToAmountSold(){
+        amountSold++;
     }
 
     public double getPrice() {
@@ -65,7 +67,7 @@ public class VendingMachineSnack {
             return "Munch Munch, Yum!";
 
         }
-        if(snackType.equals("Chips")){
+        if(snackType.equals("Chip")){
             return "Crunch Crunch, Yum!";
 
         }

@@ -45,6 +45,8 @@ public class Menu {
 		out.println();
 		for (int i = 0; i < options.length; i++) {
 			int optionNum = i + 1;
+
+			//hidden menu option
 			if(options[i].equals("")){
 				out.println("");
 			}
